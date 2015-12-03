@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Vcu-zl-3mN">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Main View Controller-->
+        <scene sceneID="FAa-Zn-R4a">
+            <objects>
+                <viewController id="lVR-Ep-AWT" customClass="MainViewController" customModule="CameraApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="smT-Zs-Qmg"/>
+                        <viewControllerLayoutGuide type="bottom" id="fmb-aR-IgR"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="xaN-7e-yyb">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FXn-ta-dMM">
+                                <rect key="frame" x="20" y="64" width="560" height="492"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="FXn-ta-dMM" firstAttribute="top" secondItem="smT-Zs-Qmg" secondAttribute="bottom" id="RgQ-jR-xrz"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="FXn-ta-dMM" secondAttribute="trailing" id="egD-d8-Xuc"/>
+                            <constraint firstItem="fmb-aR-IgR" firstAttribute="top" secondItem="FXn-ta-dMM" secondAttribute="bottom" id="mHT-D2-xN4"/>
+                            <constraint firstItem="FXn-ta-dMM" firstAttribute="leading" secondItem="xaN-7e-yyb" secondAttribute="leadingMargin" id="uET-lI-TI4"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="5au-hN-XEY"/>
+                        <barButtonItem systemItem="camera" id="H7Z-yK-2JA">
+                            <connections>
+                                <action selector="cameraButtonTouched:" destination="lVR-Ep-AWT" id="Rh7-4i-ONJ"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Mji-N0-c77"/>
+                        <barButtonItem systemItem="organize" id="c3C-SE-jqL">
+                            <connections>
+                                <action selector="libraryButtonTouched:" destination="lVR-Ep-AWT" id="2qG-Oc-Soq"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" id="XLW-Vh-HfP"/>
+                    <connections>
+                        <outlet property="displayImageView" destination="FXn-ta-dMM" id="43q-DX-uX9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LzY-OC-oO9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1172" y="674"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="8Yi-7d-rIM">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="Vcu-zl-3mN" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="tUb-39-jpW">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="AsD-Lu-oLi">
+                        <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="lVR-Ep-AWT" kind="relationship" relationship="rootViewController" id="aWP-zl-gGh"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FSW-W0-OXp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="360" y="674"/>
+        </scene>
+    </scenes>
+</document>
