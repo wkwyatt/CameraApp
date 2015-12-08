@@ -8,21 +8,44 @@
 
 import UIKit
 
-class MainViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class MainViewController: UIViewController {
 
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var displayImageView: UIImageView!
+    
+//    Vars
+    private var currentZoom:CGFloat = 1.0
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        let gesture = UITapGestureRecognizer(target: self, action: "zoomImage:")
+        
+        gesture.numberOfTapsRequired = 2
+        
+        self.scrollView.addGestureRecognizer(gesture)
+        self.scrollView.delegate = self
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func zoomImage(sender: UIGestureRecognizer) {
+        if self.currentZoom == 1.0 {
+            self.currentZoom = 2.0
+        } else {
+            self.currentZoom = 1.0
+        }
+        UIView.animateWithDuration(0.5) { [unowned self] in
+            self.scrollView.minimumZoomScale = self.currentZoom
+            self.scrollView.maximumZoomScale = self.currentZoom
+            self.scrollView.zoomScale = self.currentZoom
+        }
     }
+}
+
+// *** Button Actions *** //
+extension MainViewController {
     
-
     @IBAction func cameraButtonTouched(sender: AnyObject) {
         displayImagePicker(.Camera)
     }
@@ -30,6 +53,21 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBAction func libraryButtonTouched(sender: AnyObject) {
         displayImagePicker(.PhotoLibrary)
     }
+    
+    @IBAction func actionButtonTouched(sender: AnyObject) {
+        if let image = self.displayImageView.image {
+            let activityVC = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            activityVC.excludedActivityTypes = [UIActivityTypeMail]
+            self.presentViewController(activityVC, animated: true, completion: nil)
+        }
+    }
+}
+
+
+
+// ***  Image Picker Delegate  *** //
+extension MainViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         self.displayImageView.image = image
@@ -50,15 +88,12 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         self.presentViewController(imagePicker, animated: true, completion: nil)
     }
-    
-    /*
-    // MARK: - Navigation
+}
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+
+// *** Scroll View Delegate *** //
+extension MainViewController : UIScrollViewDelegate {
+    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+        return self.displayImageView
     }
-    */
-
 }
