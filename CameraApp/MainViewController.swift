@@ -7,19 +7,28 @@
 //
 
 import UIKit
+import FBSDKCoreKit
+import FBSDKLoginKit
+import FBSDKShareKit
 
 class MainViewController: UIViewController {
 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var displayImageView: UIImageView!
+    @IBOutlet weak var previewCollectionView: UICollectionView!
     
 //    Vars
     private var currentZoom:CGFloat = 1.0
+    private var imageStore:[UIImage]!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let loginButton:FBSDKLoginButton = FBSDKLoginButton()
+        loginButton.center = self.view.center
+        self.view.addSubview(loginButton)
+        
         // Do any additional setup after loading the view.
         let gesture = UITapGestureRecognizer(target: self, action: "zoomImage:")
         
@@ -27,6 +36,12 @@ class MainViewController: UIViewController {
         
         self.scrollView.addGestureRecognizer(gesture)
         self.scrollView.delegate = self
+        
+        self.imageStore = [UIImage]()
+        
+        if self.imageStore.isEmpty {
+            self.previewCollectionView.alpha = 0.0
+        }
     }
 
     func zoomImage(sender: UIGestureRecognizer) {
@@ -39,6 +54,14 @@ class MainViewController: UIViewController {
             self.scrollView.minimumZoomScale = self.currentZoom
             self.scrollView.maximumZoomScale = self.currentZoom
             self.scrollView.zoomScale = self.currentZoom
+        }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "FilterSegue" {
+            if let vc:FilterViewController = segue.destinationViewController as? FilterViewController {
+                vc.sourceImage = self.displayImageView.image
+            }
         }
     }
 }
@@ -56,9 +79,26 @@ extension MainViewController {
     
     @IBAction func actionButtonTouched(sender: AnyObject) {
         if let image = self.displayImageView.image {
-            let activityVC = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-            activityVC.excludedActivityTypes = [UIActivityTypeMail]
-            self.presentViewController(activityVC, animated: true, completion: nil)
+//            let activityVC = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+//            activityVC.excludedActivityTypes = [UIActivityTypeMail]
+//            self.presentViewController(activityVC, animated: true, completion: nil)
+            
+            // FACEBOOK CODE TO SHARE IMAGE
+            
+            let sharePhoto = FBSDKSharePhoto(image: image, userGenerated: true)
+            
+            let content = FBSDKSharePhotoContent()
+            content.photos = [sharePhoto]
+            
+            FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
+        }
+        
+    }
+    @IBAction func didSelectFilter(segue: UIStoryboardSegue) {
+        if segue.identifier == "FilterSelectedSegue" {
+            if let source = segue.sourceViewController as? FilterViewController, let image = source.filteredImage {
+                self.displayImageView.image = image
+            }
         }
     }
 }
@@ -71,6 +111,11 @@ extension MainViewController : UIImagePickerControllerDelegate, UINavigationCont
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         self.displayImageView.image = image
+        
+        self.imageStore.insert(image, atIndex: 0)
+        self.previewCollectionView.alpha = 1.0
+        self.previewCollectionView.reloadData()
+        
         picker.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -95,5 +140,38 @@ extension MainViewController : UIImagePickerControllerDelegate, UINavigationCont
 extension MainViewController : UIScrollViewDelegate {
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
         return self.displayImageView
+    }
+}
+
+// Collection View Data Source
+extension MainViewController : UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let image = imageStore[indexPath.item]
+        if let item = collectionView.dequeueReusableCellWithReuseIdentifier("PreviewCellReuseID", forIndexPath: indexPath) as? PreviewCollectionViewCell {
+            item.previewImageView.image = image
+            return item
+        }
+        return UICollectionViewCell()
+    }
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.imageStore.count
+    }
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let image = self.imageStore[indexPath.item]
+        self.displayImageView.image = image
+    }
+}
+
+// FACEBOOK Sharing Delegate 
+extension MainViewController : FBSDKSharingDelegate {
+    func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
+    }
+    
+    func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
+    }
+    
+    func sharerDidCancel(sharer: FBSDKSharing!) {
     }
 }
