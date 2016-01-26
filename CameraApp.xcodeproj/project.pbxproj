@@ -19,6 +19,8 @@
 		C514C4BE1C0FBC7800A1B77F /* CameraAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C514C4BD1C0FBC7800A1B77F /* CameraAppUITests.swift */; };
 		C514C4CC1C0FBCF100A1B77F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C514C4CB1C0FBCF100A1B77F /* MainViewController.swift */; };
 		C57AA7E81C1F934E00E5EC37 /* PreviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57AA7E71C1F934E00E5EC37 /* PreviewCollectionViewCell.swift */; };
+		C5A031AC1C56ECC100679A70 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A031AB1C56ECC100679A70 /* LocationManager.swift */; };
+		C5A031AE1C56EF4800679A70 /* FacebookManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A031AD1C56EF4800679A70 /* FacebookManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +60,8 @@
 		C514C4BF1C0FBC7800A1B77F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C514C4CB1C0FBCF100A1B77F /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		C57AA7E71C1F934E00E5EC37 /* PreviewCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewCollectionViewCell.swift; sourceTree = "<group>"; };
+		C5A031AB1C56ECC100679A70 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		C5A031AD1C56EF4800679A70 /* FacebookManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FacebookManager.swift; path = ../FacebookManager.swift; sourceTree = "<group>"; };
 		F543464908FD94079BB38198 /* Pods-CameraApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CameraApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-CameraApp/Pods-CameraApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -136,9 +140,11 @@
 				C514C4A91C0FBC7700A1B77F /* Info.plist */,
 				C514C4CB1C0FBCF100A1B77F /* MainViewController.swift */,
 				C57AA7E71C1F934E00E5EC37 /* PreviewCollectionViewCell.swift */,
+				C5A031AD1C56EF4800679A70 /* FacebookManager.swift */,
 				C51153BD1C4DB2900010D365 /* ImageFilterManager.swift */,
 				C51153C11C4DC1BD0010D365 /* FilterViewController.swift */,
 				C51153C31C4DC4F40010D365 /* FilterViewTableViewCell.swift */,
+				C5A031AB1C56ECC100679A70 /* LocationManager.swift */,
 			);
 			path = CameraApp;
 			sourceTree = "<group>";
@@ -349,7 +355,9 @@
 				C51153C41C4DC4F40010D365 /* FilterViewTableViewCell.swift in Sources */,
 				C57AA7E81C1F934E00E5EC37 /* PreviewCollectionViewCell.swift in Sources */,
 				C514C49E1C0FBC7700A1B77F /* AppDelegate.swift in Sources */,
+				C5A031AC1C56ECC100679A70 /* LocationManager.swift in Sources */,
 				C514C4CC1C0FBCF100A1B77F /* MainViewController.swift in Sources */,
+				C5A031AE1C56EF4800679A70 /* FacebookManager.swift in Sources */,
 				C51153BE1C4DB2900010D365 /* ImageFilterManager.swift in Sources */,
 				C51153C21C4DC1BD0010D365 /* FilterViewController.swift in Sources */,
 			);

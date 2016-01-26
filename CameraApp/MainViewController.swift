@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 import FBSDKCoreKit
 import FBSDKLoginKit
 import FBSDKShareKit
@@ -20,6 +21,8 @@ class MainViewController: UIViewController {
 //    Vars
     private var currentZoom:CGFloat = 1.0
     private var imageStore:[UIImage]!
+    private let locationManager:LocationManager = LocationManager()
+    private let fbManager = FacebookManager()
     
     
     override func viewDidLoad() {
@@ -90,7 +93,20 @@ extension MainViewController {
             let content = FBSDKSharePhotoContent()
             content.photos = [sharePhoto]
             
-            FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
+            if let currentLocation = self.locationManager.getCurrentLoction() {
+                self.fbManager.getPlaceId(lattitude: currentLocation.lat, longitude: currentLocation.long, complete: { [weak self](placeId, error) -> Void in
+                        if placeId != nil {
+                            content.placeID = placeId
+                        } else if error != nil {
+                            print("Failed to retreive a placeID:\(error)")
+                        }
+                    
+                    FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
+                    })
+            } else {
+                    FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
+            }
+            
         }
         
     }
